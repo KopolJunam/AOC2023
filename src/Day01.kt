@@ -26,11 +26,12 @@ val digitsInWords = mapOf(
 fun main() {
     val sum1 = File("c:/temp/aoc1.txt").inputStream().bufferedReader().lines().map { it.filter { it.isDigit() } }
         .mapToInt { 10 * it.first().digitToInt() + it.last().digitToInt() }.sum()
-    val sum2 = File("c:/temp/aoc1.txt").inputStream().bufferedReader().lines().mapToInt { getDigitFor(it) }.sum()
-    println("Resultat = $sum1 / $sum2")
+    val sum21 = File("c:/temp/aoc1.txt").inputStream().bufferedReader().lines().mapToInt { getNumberFor1(it) }.sum()
+    val sum22 = File("c:/temp/aoc1.txt").inputStream().bufferedReader().lines().mapToInt { getNumberFor2(it) }.sum()
+    println("Resultat = $sum1 / $sum21 / $sum22")
 }
 
-fun getDigitFor(line: String): Int {
+fun getNumberFor1(line: String): Int {
     var first: Int? = null
     var last = 0
     var restline = line
@@ -39,6 +40,17 @@ fun getDigitFor(line: String): Int {
         digitsInWords.keys.stream().filter { restline.startsWith(it) }.findFirst()
             .ifPresent { first = first ?: digitsInWords[it]; last = digitsInWords[it]!! }
         restline = restline.substring(1)
+    }
+    return 10 * first!! + last
+}
+
+fun getNumberFor2(line: String): Int {
+    var first: Int? = null
+    var last = 0
+
+    (0..line.length - 1).map { line.substring(it) }.forEach { substring ->
+        digitsInWords.keys.stream().filter { substring.startsWith(it) }.findFirst()
+            .ifPresent { first = first ?: digitsInWords[it]; last = digitsInWords[it]!! }
     }
     return 10 * first!! + last
 }
