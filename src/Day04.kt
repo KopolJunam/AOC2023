@@ -22,11 +22,10 @@ fun solveDay4_2() {
     val cardMap = mutableMapOf<Int, Int>()
 
     File("c:/temp/aoc4.txt").inputStream().bufferedReader().lines().
-    map { it.replace("  ", " ") }.
     forEach {
         val tokens = it.split(":", "|")
         val cardNo = Integer.parseInt(tokens[0].split("\\s+".toRegex())[1])
-        val noOfWinners =  tokens[1].trim().split(" ").intersect(tokens[2].trim().split(" ")).size
+        val noOfWinners =  tokens[1].trim().split("\\s+".toRegex()).intersect(tokens[2].trim().split("\\s+".toRegex())).size
         cardMap.put(cardNo,noOfWinners)
     }
     println(sumUpRange(cardMap, 1..cardMap.size))
